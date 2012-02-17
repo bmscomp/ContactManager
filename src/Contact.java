@@ -1,5 +1,4 @@
 
-
 public class Contact {
 
 	private String firstName;
@@ -29,6 +28,5 @@ public class Contact {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 
 }

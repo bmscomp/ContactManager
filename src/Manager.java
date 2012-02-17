@@ -1,5 +1,3 @@
-
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,11 +8,14 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
+import javax.swing.table.DefaultTableModel;
 
-public class Manager extends JFrame {
+public class Manager extends JFrame implements Observer {
 
 	private JButton addContact = new JButton("Add Contact");
 	private ContactForm contactForm = new ContactForm();
+	private JTable table;
+	private DefaultTableModel model;
 
 	public Manager() {
 
@@ -24,10 +25,14 @@ public class Manager extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addToolBar();
 
+		contactForm.addObserver(this);
+
 		String data[][] = { { "James ", "Gosling", "jgosline@sun.com" },
 				{ "Jonathan", "Schwartz", "jswartz@sun.com" } };
 		String col[] = { "First Name", "Last Name", "Email" };
-		JTable table = new JTable(data, col);
+
+		model = new DefaultTableModel(data, col);
+		table = new JTable(model);
 
 		JScrollPane pane = new JScrollPane(table);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -65,4 +70,18 @@ public class Manager extends JFrame {
 		});
 	}
 
+	@Override
+	public void update(Contact contact) {
+		
+		if (table != null) {
+			
+			model.insertRow(
+					1,
+					new Object[] { contact.getFirstName(),
+							contact.getLastName(), contact.getEmail() });
+
+			System.out.println("a new record was added");
+			
+		}
+	}
 }

@@ -1,22 +1,22 @@
-
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class ContactForm extends JFrame {
+public class ContactForm extends JFrame implements Subject {
+
+	private List<Observer> observers = new ArrayList<Observer>();
 
 	private JTextField firstName = new JTextField();
 	private JTextField lastName = new JTextField();
 	private JTextField email = new JTextField();
 	private JButton save = new JButton("Save");
 	private JButton cancel = new JButton("Cancel");
-	
-	
 
 	public ContactForm() {
 
@@ -24,7 +24,7 @@ public class ContactForm extends JFrame {
 		setResizable(false);
 		setTitle("Add New Contact");
 		initComponents();
-		
+
 	}
 
 	private void initComponents() {
@@ -148,7 +148,8 @@ public class ContactForm extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
+				notifyObservers();
+				setVisible(false);
 			}
 		});
 
@@ -163,10 +164,34 @@ public class ContactForm extends JFrame {
 
 	public Contact getCurrentContact() {
 		Contact contact = new Contact();
+
+		contact.setFirstName(firstName.getText());
+		contact.setLastName(lastName.getText());
+		contact.setEmail(email.getText());
+
 		return contact;
 	}
 
 	public void fillContactDetails(Contact contact) {
 
 	}
+
+	@Override
+	public void addObserver(Observer observer) {
+		observers.add(observer);
+
+	}
+
+	@Override
+	public void removeObserver(Observer observer) {
+		observers.remove(observer);
+	}
+
+	@Override
+	public void notifyObservers() {
+		for (Observer o : observers) {
+			o.update(getCurrentContact());
+		}
+	}
+
 }

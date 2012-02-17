@@ -64,6 +64,7 @@ public class Manager extends JFrame implements Observer {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (!contactForm.isVisible()) {
+					contactForm.cleanFormDetails();
 					contactForm.setVisible(true);
 				}
 			}

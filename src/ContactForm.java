@@ -173,7 +173,15 @@ public class ContactForm extends JFrame implements Subject {
 	}
 
 	public void fillContactDetails(Contact contact) {
-
+		
+	}
+	
+	public void cleanFormDetails(){
+		
+		firstName.setText("");
+		lastName.setText("");
+		email.setText("");
+		
 	}
 
 	@Override
